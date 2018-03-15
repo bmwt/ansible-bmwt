@@ -1,0 +1,7 @@
+---
+  - user:
+     name: bmwt
+     shell: /bin/bash
+     groups: sudo
+     append: yes
+    

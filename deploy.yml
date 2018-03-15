@@ -1,9 +1,10 @@
 ---
 - name: Set up bmwt stuff
-  hosts: any
+  hosts: all
 
   tasks:
   - import_tasks: tasks/ssh.yml
 #  - import_tasks: tasks/packages.yml
   - import_tasks: tasks/sudo.yml
-    
+  - import_tasks: tasks/account.yml
+      
