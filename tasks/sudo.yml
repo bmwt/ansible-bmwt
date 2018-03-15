@@ -1,0 +1,52 @@
+---
+   - name: put /etc/pam.d/sudo in place (debian)
+     copy: src=distfiles/etc/pam.d/sudo.debian dest=/etc/pam.d/sudo
+     when: ansible_os_family == 'Debian'
+
+   - name: put /etc/pam.d/sudo in place (redhat)
+     copy: src=distfiles/etc/pam.d/sudo.centos dest=/etc/pam.d/sudo
+     when: ansible_os_family == 'RedHat'
+
+   - name: put /etc/pam.d/sudo in place (freebsd)
+     copy: src=distfiles/freebsd/etc/pam.d/sudo dest=/etc/pam.d/sudo
+     when: ansible_os_family == 'FreeBSD'
+
+   - name: install pam_ssh_agent_auth.so (debain 8)
+     copy: src=distfiles/lib/x86_64-linux-gnu/security/pam_ssh_agent_auth.so dest=/lib/x86_64-linux-gnu/security/pam_ssh_agent_auth.so
+     when: ansible_distribution_release == 'jessie'
+
+   - name: install pam_ssh_agent_auth.so (ubuntu)
+     copy: src=distfiles/lib/x86_64-linux-gnu/security/pam_ssh_agent_auth.so dest=/lib/x86_64-linux-gnu/security/pam_ssh_agent_auth.so
+     when: ansible_distribution_release == 'xenial' or ansible_distribution_release == 'trusty'
+
+   - name: install pam_ssh_agent_auth.so (centos 7)
+     copy: src=distfiles/lib64/security/pam_ssh_agent_auth.so dest=/lib64/security/pam_ssh_agent_auth.so
+     when: ansible_os_family == 'RedHat' and ansible_distribution_major_version == '7'
+
+   - name: keep SSH_AUTH_SOCK environment in sudoers (linux)
+     lineinfile: dest=/etc/sudoers line='Defaults env_keep += "SSH_AUTH_SOCK",timestamp_timeout=0'
+     when: ansible_system == 'Linux'
+
+   - name: keep SSH_AUTH_SOCK environment in sudoers (freebsd)
+     lineinfile: dest=/usr/local/etc/sudoers line='Defaults env_keep += "SSH_AUTH_SOCK",timestamp_timeout=0'
+     when: ansible_system == 'FreeBSD'
+
+   - name: allow unix group sudo to sudo (Linux)
+     lineinfile: dest=/etc/sudoers line='%sudo\tALL=(ALL:ALL) ALL'
+     when: ansible_system == 'Linux'
+
+   - name: allow unix group sudo to sudo (FreeBSD)
+     lineinfile: dest=/usr/local/etc/sudoers line='%sudo\tALL=(ALL:ALL) ALL'
+     when: ansible_system == 'FreeBSD'
+
+   - name: make directory for sudo keys
+     file: dest=/etc/sudo state=directory
+
+   - name: make sure sudo group exists
+     group:
+      name: sudo
+      state: present
+
+   - name: copy bmwt sudo keys
+     copy: src=distfiles/.ssh/authorized_keys dest=/etc/sudo/bmwt
+                 

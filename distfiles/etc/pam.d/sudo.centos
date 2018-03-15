@@ -1,0 +1,9 @@
+#%PAM-1.0
+
+# auth [success=2 default=ignore] /usr/local/libexec/pam_ssh_agent_auth.so file=/etc/sudo/%u
+auth sufficient pam_ssh_agent_auth.so file=/etc/sudo/%u
+auth       include      system-auth
+account    include      system-auth
+password   include      system-auth
+session    optional     pam_keyinit.so revoke
+session    required     pam_limits.so

@@ -1,0 +1,23 @@
+---
+
+   - name: install common packages
+     package: name={{item}} state=present
+     with_items:
+     - joe
+     - curl
+     - screen
+     - tmux
+     - wget
+     - git          
+     - dmidecode
+     - sudo          
+     - pciutils
+     - bash
+     - mlocate
+     - parted
+     - ntp
+     - telnet
+     - finger
+     - python-ldap
+     - python
+     - libpam-ssh-agent-auth
