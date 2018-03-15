@@ -1,9 +1,9 @@
 ---
 - name: Set up bmwt stuff
   hosts: localhost
-  connection: local
 
   tasks:
   - import_tasks: tasks/ssh.yml
 #  - import_tasks: tasks/packages.yml
-  
+  - import_tasks: tasks/sudo.yml
+    
