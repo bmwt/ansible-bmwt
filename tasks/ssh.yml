@@ -1,0 +1,6 @@
+---
+  - name: add ansible ssh key (ansible)
+    authorized_key:
+      user: bmwt
+      key: "{{ lookup('file', 'distfiles/.ssh/authorized_keys') }}"
+
