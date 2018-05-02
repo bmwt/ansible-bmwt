@@ -1,5 +1,5 @@
 ---
-  - name: add ansible ssh key (ansible)
+  - name: add bmwt ssh key (authorized_keys)
     authorized_key:
       user: bmwt
       key: "{{ lookup('file', 'distfiles/.ssh/authorized_keys') }}"
